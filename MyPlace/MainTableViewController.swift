@@ -41,13 +41,6 @@ class MainTableViewController: UITableViewController {
         return cell
     }
     
-    // Mark - Table View delegate
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -55,6 +48,9 @@ class MainTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-
-
+    
+    @IBAction func cancelButton(_ segue: UIStoryboardSegue) {
+        
+    }
+    
 }
