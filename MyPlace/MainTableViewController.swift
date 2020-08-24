@@ -27,6 +27,20 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.isEmpty ? 0 :  places.count
     }
+    
+    //MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let place = places[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить")  {_, _, complete in
+            
+            SaveManager.deleteObject(place)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            complete(true)
+        }
+        let swipeAction = UISwipeActionsConfiguration(actions: [deleteAction])
+        return swipeAction
+    }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

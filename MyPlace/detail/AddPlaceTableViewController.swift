@@ -9,7 +9,7 @@
 import UIKit
 
 class AddPlaceTableViewController: UITableViewController {
-
+    
     var imageIsChanges = false
     
     @IBOutlet weak var imagePlace: UIImageView!
@@ -19,7 +19,7 @@ class AddPlaceTableViewController: UITableViewController {
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var localField: UITextField!
     @IBOutlet weak var typeField: UITextField!
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +31,8 @@ class AddPlaceTableViewController: UITableViewController {
         localField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
         typeField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
     }
-
-//Mark: Table view delegate
+    
+    //Mark: Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             
@@ -60,27 +60,27 @@ class AddPlaceTableViewController: UITableViewController {
         } else {
             tableView.endEditing(true)
         }
-}
+    }
     
     func saveNewPlace() {
- 
+        
         var image: UIImage?
         
         if imageIsChanges {
-                  image = imagePlace.image
-              } else {
-                  image = #imageLiteral(resourceName: "imagePlaceholder")
-              }
+            image = imagePlace.image
+        } else {
+            image = #imageLiteral(resourceName: "imagePlaceholder")
+        }
         let imageData = image?.pngData()
         
         let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData)
         SaveManager.saveObject(newPlace)
     }
-        
+    
     
     @IBAction func cancelButton(_ sender: Any) {
-          dismiss(animated: true)
-      }
+        dismiss(animated: true)
+    }
 }
 
 // MARK: text Field delegate
@@ -91,13 +91,13 @@ extension AddPlaceTableViewController: UITextFieldDelegate {
         return true
     }
     
-   @objc func textFieldChange() {
-    if nameField.text?.isEmpty == true || localField.text?.isEmpty == true
-        || typeField.text?.isEmpty == true {
-        saveButton.isEnabled = false
-    } else {
-        saveButton.isEnabled = true
-    }
+    @objc func textFieldChange() {
+        if nameField.text?.isEmpty == true || localField.text?.isEmpty == true
+            || typeField.text?.isEmpty == true {
+            saveButton.isEnabled = false
+        } else {
+            saveButton.isEnabled = true
+        }
     }
 }
 
@@ -113,6 +113,7 @@ extension AddPlaceTableViewController: UIImagePickerControllerDelegate, UINaviga
             present(imagePicker, animated: true)
         }
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         imagePlace.image = info[.editedImage] as? UIImage
