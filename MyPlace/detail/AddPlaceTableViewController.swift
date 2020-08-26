@@ -10,6 +10,7 @@ import UIKit
 
 class AddPlaceTableViewController: UITableViewController {
     
+    var currentPlace: Place?
     var imageIsChanges = false
     
     @IBOutlet weak var imagePlace: UIImageView!
@@ -24,12 +25,13 @@ class AddPlaceTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.tableFooterView = UIView()
+        //tableView.tableFooterView = UIView()
         saveButton.isEnabled = false
         
         nameField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
         localField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
         typeField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
+        editCell()
     }
     
     //Mark: Table view delegate
@@ -62,7 +64,7 @@ class AddPlaceTableViewController: UITableViewController {
         }
     }
     
-    func saveNewPlace() {
+    func savePlace() {
         
         var image: UIImage?
         
@@ -74,9 +76,41 @@ class AddPlaceTableViewController: UITableViewController {
         let imageData = image?.pngData()
         
         let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData)
-        SaveManager.saveObject(newPlace)
+        
+        if currentPlace != nil {
+            try! realm.write(){
+                currentPlace?.name = newPlace.name
+                currentPlace?.location = newPlace.location
+                currentPlace?.type = newPlace.type
+                currentPlace?.imageData = newPlace.imageData
+            }
+        } else {
+            SaveManager.saveObject(newPlace)
+        }
     }
     
+    private func editCell() {
+        if currentPlace != nil {
+            editNavigationBar()
+            imageIsChanges = true
+            guard  let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
+            imagePlace.image = image
+            imagePlace.contentMode = .scaleAspectFill
+            nameField.text = currentPlace?.name
+            localField.text = currentPlace?.location
+            typeField.text = currentPlace?.type
+
+        }
+    }
+    private func editNavigationBar(){
+        if let topItem = navigationController?.navigationBar.topItem {
+            topItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: .plain, target: nil, action: nil)
+           // topItem.largeTitleDisplayMode = .always
+        }
+        navigationItem.leftBarButtonItem = nil
+        title = currentPlace?.name
+        saveButton.isEnabled = true
+    }
     
     @IBAction func cancelButton(_ sender: Any) {
         dismiss(animated: true)

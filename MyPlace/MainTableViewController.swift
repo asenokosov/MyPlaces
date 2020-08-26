@@ -10,67 +10,168 @@ import UIKit
 import RealmSwift
 
 
-class MainTableViewController: UITableViewController {
-
-
+class MainTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var places: Results<Place>!
+    private var places: Results<Place>!
+    private var filteredPlaces: Results<Place>!
+    private var ascendingSorting = true
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
     
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var reversedSort: UIBarButtonItem!
+    @IBOutlet weak var segmentSort: UISegmentedControl!
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         places = realm.objects(Place.self)
+        // Setup Search Bar
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Тут найдешь ты искомое"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
-
+    
     // MARK: - Table view data source
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return filteredPlaces.count
+        }
         return places.isEmpty ? 0 :  places.count
     }
     
     //MARK: - Table view delegate
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let place = places[indexPath.row]
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить")  {_, _, complete in
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        var place = Place()
+        
+        if isFiltering{
+            place = filteredPlaces[indexPath.row]
+        } else {
+            place = places[indexPath.row]
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Поделиться") {_, _, complete in
+            let defaultText = "Я сейчас в " + place.name
+            let activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
+            self.present(activityController, animated: true)
+        }
+        
+        let deleteAction = UIContextualAction(style: .normal, title: "Удалить")  {_, _, complete in
             
             SaveManager.deleteObject(place)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
             complete(true)
+            
         }
-        let swipeAction = UISwipeActionsConfiguration(actions: [deleteAction])
+        shareAction.backgroundColor = #colorLiteral(red: 0.3559710608, green: 0.7054162485, blue: 1, alpha: 1)
+        deleteAction.backgroundColor = #colorLiteral(red: 1, green: 0.20458019, blue: 0.1013487829, alpha: 1)
+        
+        let swipeAction = UISwipeActionsConfiguration(actions: [deleteAction,shareAction])
+        
         return swipeAction
     }
-
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
-
-        let newPlaces = places[indexPath.row]
-
-        cell.imageOfPlace.image = UIImage(data: newPlaces.imageData!)
+        
+        var place = Place()
+        
+        if isFiltering{
+            place = filteredPlaces[indexPath.row]
+        } else {
+            place = places[indexPath.row]
+        }
+        
+        cell.imageOfPlace.image = UIImage(data: place.imageData!)
         
         cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2.5
         cell.imageOfPlace.clipsToBounds = true
-        cell.nameLabel.text = newPlaces.name
-        cell.locationLAbel.text = newPlaces.location
-        cell.typeLabel.text = newPlaces.type
-
+        cell.nameLabel.text = place.name
+        cell.locationLAbel.text = place.location
+        cell.typeLabel.text = place.type
+        
         return cell
     }
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "showDetails" {
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let place: Place
+            if isFiltering {
+                place = filteredPlaces[indexPath.row]
+            } else {
+                place = places[indexPath.row]
+            }
+            let newPlaceVC = segue.destination as! AddPlaceTableViewController
+            newPlaceVC.currentPlace = place
+        }
     }
     
     @IBAction func unwingSegue(_ segue: UIStoryboardSegue) {
         guard  let newPlaceVC = segue.source as? AddPlaceTableViewController else { return }
-        newPlaceVC.saveNewPlace()
+        newPlaceVC.savePlace()
         tableView.reloadData()
         
     }
+    
+    @IBAction func segmentAction(_ sender: UISegmentedControl) {
+        sortingPlaces()
+    }
+    
+    @IBAction func reversedAction(_ sender: Any) {
+        ascendingSorting.toggle()
+        if ascendingSorting {
+            reversedSort.image = #imageLiteral(resourceName: "AZ")
+        } else {
+            reversedSort.image = #imageLiteral(resourceName: "ZA")
+        }
+        sortingPlaces()
+    }
+    private func sortingPlaces() {
+        if segmentSort.selectedSegmentIndex == 0 {
+            places = places.sorted(byKeyPath: "date", ascending: ascendingSorting)
+        } else {
+            places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
+        }
+        tableView.reloadData()
+    }
+}
+
+extension MainTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredResult(searchController.searchBar.text!)
+        tableView.reloadData()
+    }
+    
+    private func filteredResult(_ searchText: String) {
+        filteredPlaces = places.filter("name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText , searchText)
+        tableView.reloadData()
+    }
+}
+
+extension MainTableViewController: UISearchBarDelegate {
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    if searchBar.text == "" {
+      navigationController?.hidesBarsOnSwipe = false
+    }
+  }
+  
+  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    navigationController?.hidesBarsOnSwipe = true
+  }
 }
