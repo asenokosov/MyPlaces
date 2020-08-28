@@ -38,6 +38,7 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
         searchController.searchBar.placeholder = "Тут найдешь ты искомое"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        searchController.searchBar.becomeFirstResponder() 
     }
     
     // MARK: - Table view data source
@@ -50,6 +51,10 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     //MARK: - Table view delegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         

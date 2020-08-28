@@ -10,7 +10,7 @@ import UIKit
 
 class AddPlaceTableViewController: UITableViewController {
     
-    var currentPlace: Place?
+    var currentPlace: Place!
     var imageIsChanges = false
     
     @IBOutlet weak var imagePlace: UIImageView!
@@ -20,6 +20,9 @@ class AddPlaceTableViewController: UITableViewController {
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var localField: UITextField!
     @IBOutlet weak var typeField: UITextField!
+    
+    @IBOutlet weak var ratingStar: RatingPlaceStar!
+    
     
     
     override func viewDidLoad() {
@@ -75,7 +78,7 @@ class AddPlaceTableViewController: UITableViewController {
         }
         let imageData = image?.pngData()
         
-        let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData)
+        let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, rating: Double(ratingStar.rating))
         
         if currentPlace != nil {
             try! realm.write(){
@@ -83,6 +86,7 @@ class AddPlaceTableViewController: UITableViewController {
                 currentPlace?.location = newPlace.location
                 currentPlace?.type = newPlace.type
                 currentPlace?.imageData = newPlace.imageData
+                currentPlace?.rating = newPlace.rating
             }
         } else {
             SaveManager.saveObject(newPlace)
@@ -99,6 +103,7 @@ class AddPlaceTableViewController: UITableViewController {
             nameField.text = currentPlace?.name
             localField.text = currentPlace?.location
             typeField.text = currentPlace?.type
+            ratingStar.rating = Int(currentPlace.rating)
 
         }
     }

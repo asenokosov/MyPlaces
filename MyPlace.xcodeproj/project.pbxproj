@@ -18,6 +18,7 @@
 		CE61216C24EA7D1A00297D0C /* AddPlaceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE61216B24EA7D1A00297D0C /* AddPlaceTableViewController.swift */; };
 		CE9513A424F37C1C005E1817 /* SaveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9513A324F37C1C005E1817 /* SaveManager.swift */; };
 		CE9D20B324E0FD0A00D2B679 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9D20B224E0FD0A00D2B679 /* MainTableViewController.swift */; };
+		CEA4597F24F8CD5C00616BFF /* RatingPlaceStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4597E24F8CD5C00616BFF /* RatingPlaceStar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		CE61216B24EA7D1A00297D0C /* AddPlaceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceTableViewController.swift; sourceTree = "<group>"; };
 		CE9513A324F37C1C005E1817 /* SaveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveManager.swift; sourceTree = "<group>"; };
 		CE9D20B224E0FD0A00D2B679 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		CEA4597E24F8CD5C00616BFF /* RatingPlaceStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingPlaceStar.swift; sourceTree = "<group>"; };
 		E065D54D9CA6A14A1422F849 /* Pods-MyPlace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPlace.debug.xcconfig"; path = "Target Support Files/Pods-MyPlace/Pods-MyPlace.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				CE6083D124EA46970022081C /* PlaceModel.swift */,
 				CE9513A324F37C1C005E1817 /* SaveManager.swift */,
 				CE61216B24EA7D1A00297D0C /* AddPlaceTableViewController.swift */,
+				CEA4597E24F8CD5C00616BFF /* RatingPlaceStar.swift */,
 				CE0792BB24E3D7C900020CD2 /* CustomTableViewCell.swift */,
 			);
 			path = detail;
@@ -230,6 +233,7 @@
 				CE0792BC24E3D7C900020CD2 /* CustomTableViewCell.swift in Sources */,
 				CE6083D224EA46970022081C /* PlaceModel.swift in Sources */,
 				CE9513A424F37C1C005E1817 /* SaveManager.swift in Sources */,
+				CEA4597F24F8CD5C00616BFF /* RatingPlaceStar.swift in Sources */,
 				CE9D20B324E0FD0A00D2B679 /* MainTableViewController.swift in Sources */,
 				CE35F4FC24E0F9A2006ED0B3 /* SceneDelegate.swift in Sources */,
 				CE61216C24EA7D1A00297D0C /* AddPlaceTableViewController.swift in Sources */,
