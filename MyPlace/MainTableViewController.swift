@@ -101,7 +101,7 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         cell.imageOfPlace.image = UIImage(data: place.imageData!)
-        
+        cell.mainTableRating.rating = Int(place.rating)
         cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2.5
         cell.imageOfPlace.clipsToBounds = true
         cell.nameLabel.text = place.name
@@ -111,6 +111,7 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
     
+        
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

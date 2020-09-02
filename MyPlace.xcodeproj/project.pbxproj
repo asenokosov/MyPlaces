@@ -14,6 +14,8 @@
 		CE35F50124E0F9A2006ED0B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE35F4FF24E0F9A2006ED0B3 /* Main.storyboard */; };
 		CE35F50324E0F9A4006ED0B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE35F50224E0F9A4006ED0B3 /* Assets.xcassets */; };
 		CE35F50624E0F9A4006ED0B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE35F50424E0F9A4006ED0B3 /* LaunchScreen.storyboard */; };
+		CE40A65B24FE41BC00356259 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40A65A24FE41BC00356259 /* MapViewController.swift */; };
+		CE4DDF3F24FCA0C400EE12EC /* mainTableRatingStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4DDF3E24FCA0C400EE12EC /* mainTableRatingStar.swift */; };
 		CE6083D224EA46970022081C /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6083D124EA46970022081C /* PlaceModel.swift */; };
 		CE61216C24EA7D1A00297D0C /* AddPlaceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE61216B24EA7D1A00297D0C /* AddPlaceTableViewController.swift */; };
 		CE9513A424F37C1C005E1817 /* SaveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9513A324F37C1C005E1817 /* SaveManager.swift */; };
@@ -32,6 +34,8 @@
 		CE35F50224E0F9A4006ED0B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE35F50524E0F9A4006ED0B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE35F50724E0F9A4006ED0B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE40A65A24FE41BC00356259 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		CE4DDF3E24FCA0C400EE12EC /* mainTableRatingStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainTableRatingStar.swift; sourceTree = "<group>"; };
 		CE6083D124EA46970022081C /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		CE61216B24EA7D1A00297D0C /* AddPlaceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceTableViewController.swift; sourceTree = "<group>"; };
 		CE9513A324F37C1C005E1817 /* SaveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveManager.swift; sourceTree = "<group>"; };
@@ -93,8 +97,8 @@
 				CE35F4F924E0F9A2006ED0B3 /* AppDelegate.swift */,
 				CE35F4FB24E0F9A2006ED0B3 /* SceneDelegate.swift */,
 				CE9D20B624E106EB00D2B679 /* detail */,
-				CE9D20B224E0FD0A00D2B679 /* MainTableViewController.swift */,
 				CE35F50224E0F9A4006ED0B3 /* Assets.xcassets */,
+				CE9D20B224E0FD0A00D2B679 /* MainTableViewController.swift */,
 				CE35F4FF24E0F9A2006ED0B3 /* Main.storyboard */,
 				CE35F50424E0F9A4006ED0B3 /* LaunchScreen.storyboard */,
 				CE35F50724E0F9A4006ED0B3 /* Info.plist */,
@@ -108,7 +112,9 @@
 				CE6083D124EA46970022081C /* PlaceModel.swift */,
 				CE9513A324F37C1C005E1817 /* SaveManager.swift */,
 				CE61216B24EA7D1A00297D0C /* AddPlaceTableViewController.swift */,
+				CE4DDF3E24FCA0C400EE12EC /* mainTableRatingStar.swift */,
 				CEA4597E24F8CD5C00616BFF /* RatingPlaceStar.swift */,
+				CE40A65A24FE41BC00356259 /* MapViewController.swift */,
 				CE0792BB24E3D7C900020CD2 /* CustomTableViewCell.swift */,
 			);
 			path = detail;
@@ -232,10 +238,12 @@
 				CE35F4FA24E0F9A2006ED0B3 /* AppDelegate.swift in Sources */,
 				CE0792BC24E3D7C900020CD2 /* CustomTableViewCell.swift in Sources */,
 				CE6083D224EA46970022081C /* PlaceModel.swift in Sources */,
+				CE40A65B24FE41BC00356259 /* MapViewController.swift in Sources */,
 				CE9513A424F37C1C005E1817 /* SaveManager.swift in Sources */,
 				CEA4597F24F8CD5C00616BFF /* RatingPlaceStar.swift in Sources */,
 				CE9D20B324E0FD0A00D2B679 /* MainTableViewController.swift in Sources */,
 				CE35F4FC24E0F9A2006ED0B3 /* SceneDelegate.swift in Sources */,
+				CE4DDF3F24FCA0C400EE12EC /* mainTableRatingStar.swift in Sources */,
 				CE61216C24EA7D1A00297D0C /* AddPlaceTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

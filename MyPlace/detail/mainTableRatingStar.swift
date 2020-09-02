@@ -1,16 +1,16 @@
 //
-//  RatingPlaceStar.swift
+//  mainTableRatingStar.swift
 //  MyPlace
 //
-//  Created by Я on 28/08/2020.
+//  Created by Я on 31/08/2020.
 //  Copyright © 2020 HomeMade. All rights reserved.
 //
 
 import UIKit
 
-@IBDesignable class RatingPlaceStar: UIStackView {
-        
-        // MARK: Properties
+@IBDesignable class mainTableRatingStar: UIStackView {
+    
+            // MARK: Properties
         
         var rating = 0 {
             didSet {
@@ -20,7 +20,7 @@ import UIKit
         
         private var ratingButtons = [UIButton]()
         
-    @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0) {
+    @IBInspectable var starSize: CGSize = CGSize(width: 15.0, height: 15.0) {
             didSet {
                 setupButtons()
             }

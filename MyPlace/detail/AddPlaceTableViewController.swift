@@ -69,13 +69,8 @@ class AddPlaceTableViewController: UITableViewController {
     
     func savePlace() {
         
-        var image: UIImage?
+        let image = imageIsChanges ? imagePlace.image : #imageLiteral(resourceName: "imagePlaceholder")
         
-        if imageIsChanges {
-            image = imagePlace.image
-        } else {
-            image = #imageLiteral(resourceName: "imagePlaceholder")
-        }
         let imageData = image?.pngData()
         
         let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, rating: Double(ratingStar.rating))
@@ -107,6 +102,18 @@ class AddPlaceTableViewController: UITableViewController {
 
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier != "showMap" { return } else {
+            let mapVC = segue.destination as! MapViewController
+            mapVC.place.name = nameField.text!
+            mapVC.place.location = localField.text!
+            mapVC.place.type = typeField.text!
+            mapVC.place.imageData = imagePlace.image?.pngData()
+            
+        }
+    }
+    
     private func editNavigationBar(){
         if let topItem = navigationController?.navigationBar.topItem {
             topItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: .plain, target: nil, action: nil)
