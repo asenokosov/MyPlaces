@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Cosmos
 class AddPlaceTableViewController: UITableViewController {
     
     var currentPlace: Place!
@@ -23,6 +23,7 @@ class AddPlaceTableViewController: UITableViewController {
     
     @IBOutlet weak var ratingStar: RatingPlaceStar!
     
+    @IBOutlet weak var cosmosView: CosmosView!
     
     
     override func viewDidLoad() {

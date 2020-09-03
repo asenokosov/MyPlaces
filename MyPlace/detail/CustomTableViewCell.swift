@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class CustomTableViewCell: UITableViewCell {
 
@@ -17,5 +18,6 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var mainTableRating: mainTableRatingStar!
     
+    @IBOutlet weak var cosmocView: CosmosView!
 }
 
