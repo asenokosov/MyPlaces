@@ -47,7 +47,7 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
         if isFiltering {
             return filteredPlaces.count
         }
-        return places.isEmpty ? 0 :  places.count
+        return places.count
     }
     
     //MARK: - Table view delegate
@@ -92,22 +92,14 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         
-        var place = Place()
-        
-        if isFiltering{
-            place = filteredPlaces[indexPath.row]
-        } else {
-            place = places[indexPath.row]
-        }
+        let place = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
         
         cell.imageOfPlace.image = UIImage(data: place.imageData!)
-        cell.mainTableRating.rating = Int(place.rating)
-        cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2.5
-        cell.imageOfPlace.clipsToBounds = true
+        //cell.mainTableRating.rating = Int(place.rating)
         cell.nameLabel.text = place.name
         cell.locationLAbel.text = place.location
         cell.typeLabel.text = place.type
-        
+        cell.cosmocView.rating = place.rating
         return cell
     }
     
@@ -117,12 +109,7 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetails" {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            let place: Place
-            if isFiltering {
-                place = filteredPlaces[indexPath.row]
-            } else {
-                place = places[indexPath.row]
-            }
+            let place = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
             let newPlaceVC = segue.destination as! AddPlaceTableViewController
             newPlaceVC.currentPlace = place
         }
@@ -132,7 +119,6 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
         guard  let newPlaceVC = segue.source as? AddPlaceTableViewController else { return }
         newPlaceVC.savePlace()
         tableView.reloadData()
-        
     }
     
     @IBAction func segmentAction(_ sender: UISegmentedControl) {

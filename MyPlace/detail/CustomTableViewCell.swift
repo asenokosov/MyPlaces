@@ -10,14 +10,24 @@ import UIKit
 import Cosmos
 
 class CustomTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var imageOfPlace: UIImageView!
+    
+    @IBOutlet weak var imageOfPlace: UIImageView! {
+        didSet {
+            imageOfPlace.layer.cornerRadius = imageOfPlace.frame.size.height / 2.5
+            imageOfPlace.clipsToBounds = true
+        }
+    }
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var locationLAbel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
     
     @IBOutlet weak var mainTableRating: mainTableRatingStar!
     
-    @IBOutlet weak var cosmocView: CosmosView!
+    @IBOutlet var cosmocView: CosmosView! {
+        didSet {
+            cosmocView.settings.updateOnTouch = false
+        }
+    }
 }
 

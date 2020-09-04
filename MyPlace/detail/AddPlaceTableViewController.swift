@@ -12,6 +12,7 @@ class AddPlaceTableViewController: UITableViewController {
     
     var currentPlace: Place!
     var imageIsChanges = false
+    var currentRating = 0.0
     
     @IBOutlet weak var imagePlace: UIImageView!
     
@@ -31,6 +32,10 @@ class AddPlaceTableViewController: UITableViewController {
         
         //tableView.tableFooterView = UIView()
         saveButton.isEnabled = false
+        
+        cosmosView.didTouchCosmos = { rating in
+            self.currentRating = rating
+        }
         
         nameField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
         localField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
@@ -74,7 +79,9 @@ class AddPlaceTableViewController: UITableViewController {
         
         let imageData = image?.pngData()
         
-        let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, rating: Double(ratingStar.rating))
+        let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, //rating: Double(ratingStar.rating)
+        rating: currentRating)
+            
         
         if currentPlace != nil {
             try! realm.write(){
@@ -99,8 +106,8 @@ class AddPlaceTableViewController: UITableViewController {
             nameField.text = currentPlace?.name
             localField.text = currentPlace?.location
             typeField.text = currentPlace?.type
-            ratingStar.rating = Int(currentPlace.rating)
-
+            //ratingStar.rating = Int(currentPlace.rating)
+            cosmosView.rating = currentPlace.rating
         }
     }
     
