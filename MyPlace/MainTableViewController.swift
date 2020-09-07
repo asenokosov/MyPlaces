@@ -27,7 +27,7 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var reversedSort: UIBarButtonItem!
     @IBOutlet weak var segmentSort: UISegmentedControl!
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -95,15 +95,15 @@ class MainTableViewController: UIViewController, UITableViewDelegate, UITableVie
         let place = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
         
         cell.imageOfPlace.image = UIImage(data: place.imageData!)
-        //cell.mainTableRating.rating = Int(place.rating)
+        cell.mainTableRating.rating = Int(place.rating)
         cell.nameLabel.text = place.name
         cell.locationLAbel.text = place.location
         cell.typeLabel.text = place.type
-        cell.cosmocView.rating = place.rating
+        //cell.cosmocView.rating = place.rating
         return cell
     }
     
-        
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -157,13 +157,13 @@ extension MainTableViewController: UISearchResultsUpdating {
 }
 
 extension MainTableViewController: UISearchBarDelegate {
-  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-    if searchBar.text == "" {
-      navigationController?.hidesBarsOnSwipe = false
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if searchBar.text == "" {
+            navigationController?.hidesBarsOnSwipe = false
+        }
     }
-  }
-  
-  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    navigationController?.hidesBarsOnSwipe = true
-  }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        navigationController?.hidesBarsOnSwipe = true
+    }
 }

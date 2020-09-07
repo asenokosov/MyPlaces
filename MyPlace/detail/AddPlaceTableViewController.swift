@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Cosmos
+//import Cosmos
 class AddPlaceTableViewController: UITableViewController {
     
     var currentPlace: Place!
@@ -24,7 +24,9 @@ class AddPlaceTableViewController: UITableViewController {
     
     @IBOutlet weak var ratingStar: RatingPlaceStar!
     
-    @IBOutlet weak var cosmosView: CosmosView!
+    @IBAction func userLocation() {
+    }
+    // @IBOutlet weak var cosmosView: CosmosView!
     
     
     override func viewDidLoad() {
@@ -33,9 +35,9 @@ class AddPlaceTableViewController: UITableViewController {
         //tableView.tableFooterView = UIView()
         saveButton.isEnabled = false
         
-        cosmosView.didTouchCosmos = { rating in
-            self.currentRating = rating
-        }
+        //   cosmosView.didTouchCosmos = { rating in
+        //      self.currentRating = rating
+        //   }
         
         nameField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
         localField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
@@ -79,9 +81,9 @@ class AddPlaceTableViewController: UITableViewController {
         
         let imageData = image?.pngData()
         
-        let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, //rating: Double(ratingStar.rating)
-        rating: currentRating)
-            
+        let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, rating: Double(ratingStar.rating))
+        //  rating: currentRating)
+        
         
         if currentPlace != nil {
             try! realm.write(){
@@ -106,26 +108,33 @@ class AddPlaceTableViewController: UITableViewController {
             nameField.text = currentPlace?.name
             localField.text = currentPlace?.location
             typeField.text = currentPlace?.type
-            //ratingStar.rating = Int(currentPlace.rating)
-            cosmosView.rating = currentPlace.rating
+            ratingStar.rating = Int(currentPlace.rating)
+            // cosmosView.rating = currentPlace.rating
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier != "showMap" { return } else {
-            let mapVC = segue.destination as! MapViewController
+        guard
+            let identifier = segue.identifier,
+            let mapVC = segue.destination as? MapViewController
+            else { return }
+        
+        mapVC.tapSegueIdentifier = identifier
+        mapVC.mapViewControllerDelegat = self
+        
+        if identifier == "showMap" {
             mapVC.place.name = nameField.text!
             mapVC.place.location = localField.text!
             mapVC.place.type = typeField.text!
             mapVC.place.imageData = imagePlace.image?.pngData()
-            
-        }
+        } 
     }
     
     private func editNavigationBar(){
         if let topItem = navigationController?.navigationBar.topItem {
             topItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: .plain, target: nil, action: nil)
-           // topItem.largeTitleDisplayMode = .always
+            
+            // topItem.largeTitleDisplayMode = .always
         }
         navigationItem.leftBarButtonItem = nil
         title = currentPlace?.name
@@ -180,3 +189,8 @@ extension AddPlaceTableViewController: UIImagePickerControllerDelegate, UINaviga
     }
 }
 
+extension AddPlaceTableViewController: MapViewControllerDelegate {
+    func getAddress(_ address: String?) {
+        localField.text = address
+    }
+}

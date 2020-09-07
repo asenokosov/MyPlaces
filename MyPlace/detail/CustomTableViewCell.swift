@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Cosmos
+//import Cosmos
 
 class CustomTableViewCell: UITableViewCell {
     
@@ -24,10 +24,10 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var mainTableRating: mainTableRatingStar!
     
-    @IBOutlet var cosmocView: CosmosView! {
-        didSet {
-            cosmocView.settings.updateOnTouch = false
-        }
-    }
+    //    @IBOutlet var cosmocView: CosmosView! {
+    //        didSet {
+    //            cosmocView.settings.updateOnTouch = false
+    //        }
+    //    }
 }
 
