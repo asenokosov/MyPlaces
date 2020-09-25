@@ -26,7 +26,7 @@ import UIKit
             }
         }
         
-        @IBInspectable var starCount: Int = 5 {
+	@IBInspectable var starCount: Int = 5 {
             didSet {
                 setupButtons()
             }
@@ -120,5 +120,4 @@ import UIKit
                 button.isSelected = index < rating
             }
         }
-
     }

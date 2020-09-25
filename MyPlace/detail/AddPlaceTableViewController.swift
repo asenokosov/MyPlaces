@@ -10,6 +10,8 @@ import UIKit
 //import Cosmos
 class AddPlaceTableViewController: UITableViewController {
     
+	//MARK: Outlet's and properties
+	
     var currentPlace: Place!
     var imageIsChanges = false
     var currentRating = 0.0
@@ -26,26 +28,30 @@ class AddPlaceTableViewController: UITableViewController {
     
     @IBAction func userLocation() {
     }
-    // @IBOutlet weak var cosmosView: CosmosView!
-    
+	@IBAction func cancelButton(_ sender: Any) {
+		dismiss(animated: true)
+	}
+    // @IBOutlet weak var cosmosView: CosmosView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //tableView.tableFooterView = UIView()
-        saveButton.isEnabled = false
-        
+		saveButton.isEnabled = false
+		addTarget()
+		editCell()
+		//tableView.tableFooterView = UIView()
         //   cosmosView.didTouchCosmos = { rating in
         //      self.currentRating = rating
         //   }
-        
-        nameField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
-        localField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
-        typeField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
-        editCell()
     }
     
-    //Mark: Table view delegate
+	func addTarget() {
+		nameField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
+		localField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
+		typeField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
+	}
+	
+    //MARK: Table view delegate
+	
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             
@@ -75,6 +81,8 @@ class AddPlaceTableViewController: UITableViewController {
         }
     }
     
+	//MARK: Save Place
+	
     func savePlace() {
         
         let image = imageIsChanges ? imagePlace.image : #imageLiteral(resourceName: "imagePlaceholder")
@@ -83,8 +91,6 @@ class AddPlaceTableViewController: UITableViewController {
         
         let newPlace = Place(name: nameField.text!, location: localField.text, type: typeField.text, imageData: imageData, rating: Double(ratingStar.rating))
         //  rating: currentRating)
-        
-        
         if currentPlace != nil {
             try! realm.write(){
                 currentPlace?.name = newPlace.name
@@ -98,6 +104,8 @@ class AddPlaceTableViewController: UITableViewController {
         }
     }
     
+	//MARK: Edit Cell
+	
     private func editCell() {
         if currentPlace != nil {
             editNavigationBar()
@@ -133,16 +141,11 @@ class AddPlaceTableViewController: UITableViewController {
     private func editNavigationBar(){
         if let topItem = navigationController?.navigationBar.topItem {
             topItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: .plain, target: nil, action: nil)
-            
             // topItem.largeTitleDisplayMode = .always
         }
         navigationItem.leftBarButtonItem = nil
         title = currentPlace?.name
         saveButton.isEnabled = true
-    }
-    
-    @IBAction func cancelButton(_ sender: Any) {
-        dismiss(animated: true)
     }
 }
 
